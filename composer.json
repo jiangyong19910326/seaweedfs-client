@@ -4,7 +4,7 @@
     "require": {
         "guzzlehttp/guzzle": "^6.0|^7.0"
     },
-    "license": "Copyright 2018 Tyler Stuyfzand <tyler@tystuyfzand.com>",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "SeaweedFS\\": "src/"
