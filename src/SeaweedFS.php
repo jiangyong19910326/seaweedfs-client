@@ -327,16 +327,17 @@ class SeaweedFS
         return $this->client->post($this->buildFilerUrl($newpath).'?mv.from=/'.$path);
     }
 
+
     public function copy($path,$newpath)
     {
        //获取文件
        $res = $this->client->get($this->buildFileUrl($path));
        if($res->getStatusCode() == 200)
        {
-           $filename = substr($newpath,(strripos($newpath,"/")+1-strlen($newpath)));
-           $path=substr($newpath,0,strripos($newpath,"/"));
+           $filename = substr($path,(strripos($path,"/")+1-strlen($path)));
+           $path=substr($path,0,strripos($path,"/"));
             //上传目录中的文件
-            $result = $this->client->post($this->buildFilerUrl($path), [
+           $result = $this->client->post($this->buildFilerUrl($newpath), [
                 'multipart' => [
                     [
                         'name'     => 'file',
