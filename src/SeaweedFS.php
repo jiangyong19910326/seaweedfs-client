@@ -166,6 +166,7 @@ class SeaweedFS
                 ]
             ]);
             if ($res->getStatusCode() == 201) {
+                unlink(public_path($filename));
                 return true;
             } else {
                 return false;
