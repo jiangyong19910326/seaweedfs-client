@@ -147,12 +147,34 @@ class SeaweedFS
      */
     public function upload($path, $data, $filename = 'file.txt', $file = null)
     {
-        $dir = glz($this->buildFileUrl($path),[]);
-        if($dir)
-        {
+        $dir = glz($this->buildFileUrl($path), []);
+        // dd($dir,$filename,$data);
+        if (!$data) {
+            // 创建空文件的资源对象
+            $data = [];
+            // $content = stream_context_create($data);
+            $file = fopen($filename,'w+');
+            $txt = " ";
+            fwrite($file, $txt);
+            $res = $this->client->post($this->buildFilerUrl($path), [
+                'multipart' =>   [
+                    [
+                        'name'     => 'file',
+                        'filename' => $filename,
+                        'contents' => $file,
+                    ]
+                ]
+            ]);
+            if ($res->getStatusCode() == 201) {
+                return true;
+            } else {
+                return false;
+            }
+           
+        }
+        if ($dir) {
             //创建文件
-            // dd($path,$filename);
-
+            // dd($data);
             $res = $this->client->post($this->buildFilerUrl($path), [
                 'multipart' => [
                     [
@@ -161,10 +183,10 @@ class SeaweedFS
                         'contents' => $data,
                     ]
                 ],
-    
+
             ]);
         } else {
-            $path = $path.'?op=append'; //修改文件 
+            $path = $path . '?op=append'; //修改文件 
             $res = $this->client->post($this->buildFileUrl($path), [
                 'multipart' => [
                     [
@@ -173,7 +195,7 @@ class SeaweedFS
                         'contents' => $data,
                     ]
                 ],
-    
+
             ]);
         }
         if ($res->getStatusCode() == 201) {
