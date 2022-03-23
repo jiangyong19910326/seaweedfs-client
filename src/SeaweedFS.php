@@ -337,7 +337,7 @@ class SeaweedFS
            $filename = substr($path,(strripos($path,"/")+1-strlen($path)));
            $path=substr($path,0,strripos($path,"/"));
             //上传目录中的文件
-           $result = $this->client->post($this->buildFilerUrl($newpath), [
+            $result = $this->client->post($this->buildFilerUrl($newpath), [
                 'multipart' => [
                     [
                         'name'     => 'file',
